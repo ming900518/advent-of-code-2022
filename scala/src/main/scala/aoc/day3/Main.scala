@@ -1,5 +1,32 @@
 package aoc.day3
 
+def part1(input: String) = {
+  val result = input.linesIterator.map((line) => {
+    val (first, second) = line.splitAt(line.length() / 2);
+    val intersectChar = List(first.toCharArray(), second.toCharArray()).reduce((a, b) => a intersect b);
+    val ascii = intersectChar.apply(0).toInt;
+    if ascii >= 97 then {
+      ascii - 96
+    } else {
+     ascii - 38 
+    }
+  }).sum;
+  println("Day 3 Part 1: " + result)
+}
+
+def part2(input: String) = { 
+  val result = input.linesIterator.grouped(3).map((lines) => {
+    val intersectChar = lines.reduce((a, b) => a intersect b);
+    val ascii = intersectChar.apply(0).toInt;
+    if ascii >= 97 then {
+      ascii - 96
+    } else {
+     ascii - 38 
+    }
+  }).sum;
+  println("Day 3 Part 2: " + result)
+}
+
 val input = s"""WwcsbsWwspmFTGVV
 RHtMDHdSMnDBGMSDvnvDjtmpTpjTFggpmjmTFggTjmpP
 vtCSGRMBDzHddvBHBzRhrlcZhlLzWNlqblhzcr
