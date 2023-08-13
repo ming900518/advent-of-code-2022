@@ -1,29 +1,27 @@
 package aoc.day6
 
 def part1(input: String) = {
-  println(
-    "Day 6 Part 1: " + input
-      .toCharArray()
-      .sliding(4, 1)
-      .zipWithIndex
-      .map((chars, i) => (chars.mkString, i + 4))
-      .filter((chars, _) => chars.distinct.length() == 4)
-      .next
-      ._2
-  )
+  val index = input
+    .toCharArray()
+    .sliding(4)
+    .zipWithIndex
+    .map((chars, i) => (chars.mkString, i + 4))
+    .find((chars, _) => chars.distinct.length() == 4)
+    .head
+    ._2;
+  println("Day 6 Part 1: " + index);
 }
 
 def part2(input: String) = {
-  println(
-    "Day 6 Part 2: " + input
-      .toCharArray()
-      .sliding(14, 1)
-      .zipWithIndex
-      .map((chars, i) => (chars.mkString, i + 14))
-      .filter((chars, _) => chars.distinct.length() == 14)
-      .next
-      ._2
-  )
+  val index = input
+    .toCharArray()
+    .sliding(14)
+    .zipWithIndex
+    .map((chars, i) => (chars.mkString, i + 14))
+    .find((chars, _) => chars.distinct.length() == 14)
+    .head
+    ._2;
+  println("Day 6 Part 2: " + index);
 }
 
 val input =
