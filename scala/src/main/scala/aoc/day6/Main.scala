@@ -5,8 +5,8 @@ def part1(input: String) = {
     .toCharArray()
     .sliding(4)
     .zipWithIndex
-    .map((chars, i) => (chars.mkString, i + 4))
-    .find((chars, _) => chars.distinct.length() == 4)
+    .map((chars, i) => (chars, i + 4))
+    .find((chars, _) => chars.distinct.length == 4)
     .head
     ._2;
   println("Day 6 Part 1: " + index);
@@ -17,8 +17,8 @@ def part2(input: String) = {
     .toCharArray()
     .sliding(14)
     .zipWithIndex
-    .map((chars, i) => (chars.mkString, i + 14))
-    .find((chars, _) => chars.distinct.length() == 14)
+    .map((chars, i) => (chars, i + 14))
+    .find((chars, _) => chars.distinct.length == 14)
     .head
     ._2;
   println("Day 6 Part 2: " + index);
