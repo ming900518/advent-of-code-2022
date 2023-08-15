@@ -11,6 +11,7 @@
   aoc.day5.part2(aoc.day5.input, aoc.day5.instruction);
   aoc.day6.part1(aoc.day6.input);
   aoc.day6.part2(aoc.day6.input);
-
+  aoc.day7.part1(aoc.day7.input);
+  aoc.day7.part2(aoc.day7.input);
 }
 
