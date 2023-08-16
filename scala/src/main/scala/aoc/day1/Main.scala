@@ -3,43 +3,43 @@ package aoc.day1
 import scala.collection.mutable.ArrayBuffer
 
 def part1(input: String) = {
-  var result = 0;
-  var buffer = 0;
-  input
-    .lines()
-    .forEach((line) => {
-      if line.isEmpty() then {
-        if buffer > result then {
-          result = buffer
-        }
-        buffer = 0
-      } else {
-        line.toIntOption match
-          case Some(lineInt) => buffer += lineInt
-          case None          => ()
-      }
-    })
-  println("Day 1 Part 1: " + result)
+    var result = 0;
+    var buffer = 0;
+    input
+        .lines()
+        .forEach((line) => {
+            if line.isEmpty() then {
+                if buffer > result then {
+                    result = buffer
+                }
+                buffer = 0
+            } else {
+                line.toIntOption match
+                    case Some(lineInt) => buffer += lineInt
+                    case None          => ()
+            }
+        })
+    println("Day 1 Part 1: " + result)
 }
 
 def part2(input: String) = {
-  var result = ArrayBuffer[Int]();
-  var buffer = 0;
-  input
-    .lines()
-    .forEach((line) => {
-      if line.isEmpty() then {
-        result.addOne(buffer)
-        buffer = 0
-      } else {
-        line.toIntOption match
-          case Some(lineInt) => buffer += lineInt
-          case None          => ()
-      }
-    })
-  println(
-    "Day 1 Part 2: " + result.sortWith((a, b) => a > b).take(3).sum
-  )
+    var result = ArrayBuffer[Int]();
+    var buffer = 0;
+    input
+        .lines()
+        .forEach((line) => {
+            if line.isEmpty() then {
+                result.addOne(buffer)
+                buffer = 0
+            } else {
+                line.toIntOption match
+                    case Some(lineInt) => buffer += lineInt
+                    case None          => ()
+            }
+        })
+    println(
+      "Day 1 Part 2: " + result.sortWith((a, b) => a > b).take(3).sum
+    )
 }
 
 val input = s"""

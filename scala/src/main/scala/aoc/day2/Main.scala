@@ -1,94 +1,97 @@
 package aoc.day2
 
 enum Choose {
-  case Rock, Paper, Scissor
+    case Rock, Paper, Scissor
 }
 
 def convertToChoose(input: String): Option[Choose] = {
-  input match
-    case "A" | "X" => Some(Choose.Rock)
-    case "B" | "Y" => Some(Choose.Paper)
-    case "C" | "Z" => Some(Choose.Scissor)
-    case _         => None
+    input match
+        case "A" | "X" => Some(Choose.Rock)
+        case "B" | "Y" => Some(Choose.Paper)
+        case "C" | "Z" => Some(Choose.Scissor)
+        case _         => None
 }
 
 class Input(a: Option[Choose], b: Option[Choose]) {
-  def score: Int = {
-    a match
-      case Some(Choose.Rock) =>
-        b match
-          case Some(Choose.Rock)    => 3 + 1
-          case Some(Choose.Paper)   => 6 + 2
-          case Some(Choose.Scissor) => 0 + 3
-          case None                 => 0
-      case Some(Choose.Paper) =>
-        b match
-          case Some(Choose.Rock)    => 0 + 1
-          case Some(Choose.Paper)   => 3 + 2
-          case Some(Choose.Scissor) => 6 + 3
-          case None                 => 0
-      case Some(Choose.Scissor) =>
-        b match
-          case Some(Choose.Rock)    => 6 + 1
-          case Some(Choose.Paper)   => 0 + 2
-          case Some(Choose.Scissor) => 3 + 3
-          case None                 => 0
-      case None => 0
-  }
+    def score: Int = {
+        a match
+            case Some(Choose.Rock) =>
+                b match
+                    case Some(Choose.Rock)    => 3 + 1
+                    case Some(Choose.Paper)   => 6 + 2
+                    case Some(Choose.Scissor) => 0 + 3
+                    case None                 => 0
+            case Some(Choose.Paper) =>
+                b match
+                    case Some(Choose.Rock)    => 0 + 1
+                    case Some(Choose.Paper)   => 3 + 2
+                    case Some(Choose.Scissor) => 6 + 3
+                    case None                 => 0
+            case Some(Choose.Scissor) =>
+                b match
+                    case Some(Choose.Rock)    => 6 + 1
+                    case Some(Choose.Paper)   => 0 + 2
+                    case Some(Choose.Scissor) => 3 + 3
+                    case None                 => 0
+            case None => 0
+    }
 }
 
 def convertWithConditionAndOpponentSelection(
     input: String,
     opponent: Option[Choose]
 ): Option[Choose] = {
-  input match
-    case "X" =>
-      opponent match
-        case Some(Choose.Rock)    => Some(Choose.Scissor)
-        case Some(Choose.Paper)   => Some(Choose.Rock)
-        case Some(Choose.Scissor) => Some(Choose.Paper)
-        case None                 => None
-    case "Y" =>
-      opponent match
-        case Some(Choose.Rock)    => Some(Choose.Rock)
-        case Some(Choose.Paper)   => Some(Choose.Paper)
-        case Some(Choose.Scissor) => Some(Choose.Scissor)
-        case None                 => None
-    case "Z" =>
-      opponent match
-        case Some(Choose.Rock)    => Some(Choose.Paper)
-        case Some(Choose.Paper)   => Some(Choose.Scissor)
-        case Some(Choose.Scissor) => Some(Choose.Rock)
-        case None                 => None
-    case _ => None
+    input match
+        case "X" =>
+            opponent match
+                case Some(Choose.Rock)    => Some(Choose.Scissor)
+                case Some(Choose.Paper)   => Some(Choose.Rock)
+                case Some(Choose.Scissor) => Some(Choose.Paper)
+                case None                 => None
+        case "Y" =>
+            opponent match
+                case Some(Choose.Rock)    => Some(Choose.Rock)
+                case Some(Choose.Paper)   => Some(Choose.Paper)
+                case Some(Choose.Scissor) => Some(Choose.Scissor)
+                case None                 => None
+        case "Z" =>
+            opponent match
+                case Some(Choose.Rock)    => Some(Choose.Paper)
+                case Some(Choose.Paper)   => Some(Choose.Scissor)
+                case Some(Choose.Scissor) => Some(Choose.Rock)
+                case None                 => None
+        case _ => None
 }
 
 def part1(input: String) = {
-  var score = 0;
-  input.linesIterator
-    .foreach((line) => {
-      val splited = line.split(" ");
-      score += Input(
-        convertToChoose(splited.apply(0)),
-        convertToChoose(splited.apply(1))
-      ).score
-    })
+    var score = 0;
+    input.linesIterator
+        .foreach((line) => {
+            val splited = line.split(" ");
+            score += Input(
+              convertToChoose(splited.apply(0)),
+              convertToChoose(splited.apply(1))
+            ).score
+        })
 
-  println("Day 2 Part 1: " + score)
+    println("Day 2 Part 1: " + score)
 }
 
 def part2(input: String) = {
-  var score = 0;
-  input.linesIterator
-    .foreach((line) => {
-      val splited = line.split(" ");
-      val opponent = convertToChoose(splited.apply(0));
-      val self =
-        convertWithConditionAndOpponentSelection(splited.apply(1), opponent);
-      score += Input(opponent, self).score
-    })
+    var score = 0;
+    input.linesIterator
+        .foreach((line) => {
+            val splited = line.split(" ");
+            val opponent = convertToChoose(splited.apply(0));
+            val self =
+                convertWithConditionAndOpponentSelection(
+                  splited.apply(1),
+                  opponent
+                );
+            score += Input(opponent, self).score
+        })
 
-  println("Day 2 Part 2: " + score)
+    println("Day 2 Part 2: " + score)
 }
 
 val input = s"""C X

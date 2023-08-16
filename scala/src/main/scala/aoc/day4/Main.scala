@@ -1,91 +1,103 @@
 package aoc.day4
 
 def part1(input: String) = {
-  var count = 0;
-  input.linesIterator.foreach((line) => {
-    val (first, second) = line
-      .split(",")
-      .grouped(2)
-      .map((elfs) =>
-        (
-          elfs
-            .apply(0)
-            .split("-")
+    var count = 0;
+    input.linesIterator.foreach((line) => {
+        val (first, second) = line
+            .split(",")
             .grouped(2)
-            .map((ranges) => {
-              if ranges.apply(0) == ranges
-                  .apply(1)
-              then { List(ranges.apply(0).toInt) }
-              else {
-                Range(ranges.apply(0).toInt, ranges.apply(1).toInt + 1).toList
-              }
-            })
-            .next(),
-          elfs
-            .apply(1)
-            .split("-")
-            .grouped(2)
-            .map((ranges) => {
-              if ranges.apply(0) == ranges
-                  .apply(1)
-              then { List(ranges.apply(0).toInt) }
-              else {
-                Range(ranges.apply(0).toInt, ranges.apply(1).toInt + 1).toList
-              }
-            })
-            .next()
-        )
-      )
-      .next();
-    if first.containsSlice(second) | second.containsSlice(first) then {
-      count += 1
-    }
-  })
-  println("Day 4 Part 1: " + count)
+            .map((elfs) =>
+                (
+                  elfs
+                      .apply(0)
+                      .split("-")
+                      .grouped(2)
+                      .map((ranges) => {
+                          if ranges.apply(0) == ranges
+                                  .apply(1)
+                          then { List(ranges.apply(0).toInt) }
+                          else {
+                              Range(
+                                ranges.apply(0).toInt,
+                                ranges.apply(1).toInt + 1
+                              ).toList
+                          }
+                      })
+                      .next(),
+                  elfs
+                      .apply(1)
+                      .split("-")
+                      .grouped(2)
+                      .map((ranges) => {
+                          if ranges.apply(0) == ranges
+                                  .apply(1)
+                          then { List(ranges.apply(0).toInt) }
+                          else {
+                              Range(
+                                ranges.apply(0).toInt,
+                                ranges.apply(1).toInt + 1
+                              ).toList
+                          }
+                      })
+                      .next()
+                )
+            )
+            .next();
+        if first.containsSlice(second) | second.containsSlice(first) then {
+            count += 1
+        }
+    })
+    println("Day 4 Part 1: " + count)
 }
 
 def part2(input: String) = {
-  var count = 0;
-  input.linesIterator.foreach((line) => {
-    val (first, second) = line
-      .split(",")
-      .grouped(2)
-      .map((elfs) =>
-        (
-          elfs
-            .apply(0)
-            .split("-")
+    var count = 0;
+    input.linesIterator.foreach((line) => {
+        val (first, second) = line
+            .split(",")
             .grouped(2)
-            .map((ranges) => {
-              if ranges.apply(0) == ranges
-                  .apply(1)
-              then { List(ranges.apply(0).toInt) }
-              else {
-                Range(ranges.apply(0).toInt, ranges.apply(1).toInt + 1).toList
-              }
-            })
-            .next(),
-          elfs
-            .apply(1)
-            .split("-")
-            .grouped(2)
-            .map((ranges) => {
-              if ranges.apply(0) == ranges
-                  .apply(1)
-              then { List(ranges.apply(0).toInt) }
-              else {
-                Range(ranges.apply(0).toInt, ranges.apply(1).toInt + 1).toList
-              }
-            })
-            .next()
-        )
-      )
-      .next();
-    if (first intersect second).length > 0 then {
-      count += 1
-    }
-  })
-  println("Day 4 Part 2: " + count)
+            .map((elfs) =>
+                (
+                  elfs
+                      .apply(0)
+                      .split("-")
+                      .grouped(2)
+                      .map((ranges) => {
+                          if ranges.apply(0) == ranges
+                                  .apply(1)
+                          then { List(ranges.apply(0).toInt) }
+                          else {
+                              Range(
+                                ranges.apply(0).toInt,
+                                ranges.apply(1).toInt + 1
+                              ).toList
+                          }
+                      })
+                      .next(),
+                  elfs
+                      .apply(1)
+                      .split("-")
+                      .grouped(2)
+                      .map((ranges) => {
+                          if ranges.apply(0) == ranges
+                                  .apply(1)
+                          then { List(ranges.apply(0).toInt) }
+                          else {
+                              Range(
+                                ranges.apply(0).toInt,
+                                ranges.apply(1).toInt + 1
+                              ).toList
+                          }
+                      })
+                      .next()
+                )
+            )
+            .next();
+        if (first intersect second).length > 0 then {
+            count += 1
+        }
+    })
+    println("Day 4 Part 2: " + count)
 }
 
 val input = s"""71-89,66-70

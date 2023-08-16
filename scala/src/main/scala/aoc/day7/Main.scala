@@ -4,90 +4,99 @@ import scala.collection.mutable.HashMap
 import scala.collection.mutable.ArrayBuffer
 
 enum Kind {
-  case Cd(directory: Direction)
-  case Ls(content: Content)
+    case Cd(directory: Direction)
+    case Ls(content: Content)
 }
 
 enum Direction {
-  case In(dirName: String)
-  case Out
+    case In(dirName: String)
+    case Out
 }
 
 enum Content {
-  case Command
-  case Dir(dirName: String)
-  case File(fileName: String, size: Int)
+    case Command
+    case Dir(dirName: String)
+    case File(fileName: String, size: Int)
 }
 
 def parse(line: String): Option[Kind] = {
-  line match {
-    case x if x.contains("$ cd") =>
-      x match
-        case y if y.contains("..") => Some(Kind.Cd(Direction.Out))
-        case _ => Some(Kind.Cd(Direction.In(x.split("cd ").last)))
+    line match {
+        case x if x.contains("$ cd") =>
+            x match
+                case y if y.contains("..") => Some(Kind.Cd(Direction.Out))
+                case _ => Some(Kind.Cd(Direction.In(x.split("cd ").last)))
 
-    case x if x.contains("$ ls") => Some(Kind.Ls(Content.Command))
-    case x if x.contains("dir") =>
-      Some(Kind.Ls(Content.Dir(x.split("dir ").last)))
-    case x if x.head.isDigit => {
-      val splited = line.split(" ");
-      Some(Kind.Ls(Content.File(splited.last, splited.head.toInt)))
+        case x if x.contains("$ ls") => Some(Kind.Ls(Content.Command))
+        case x if x.contains("dir") =>
+            Some(Kind.Ls(Content.Dir(x.split("dir ").last)))
+        case x if x.head.isDigit => {
+            val splited = line.split(" ");
+            Some(Kind.Ls(Content.File(splited.last, splited.head.toInt)))
+        }
+        case _ => None
     }
-    case _ => None
-  }
 }
 
 def part1(input: String) = {
-  val dirInfo = HashMap[String, (Option[String], Int)]();
-  var previousDir = ArrayBuffer[String]();
-  var currentDir = String();
-  input.linesIterator
-    .foreach((line) => {
-      parse(line) match
-        case Some(Kind.Cd(Direction.In(dirName))) => {
-          previousDir.addOne(currentDir);
-          currentDir = dirName;
-        }
-        case Some(Kind.Cd(Direction.Out)) => {
-          currentDir = previousDir.remove(previousDir.length - 1);
-        }
-        case Some(Kind.Ls(Content.File(_, size))) => {
-          dirInfo.get(currentDir) match {
-            case Some(prev) => 
-              dirInfo.update(currentDir, (prev._1, prev._2 + size))
-            case None => 
-              dirInfo.addOne(currentDir, (previousDir.lastOption, size))
-          }
-          previousDir.foreach((parentDir) => {
-            if (!parentDir.isBlank()) {
-              dirInfo.get(parentDir) match {
-                case Some(prev) =>
-                  dirInfo.update(parentDir, (prev._1, prev._2 + size))
-                case None => ()
-              }
-            }
-          })
-        }
-        case _ => {}
-    })
+    val dirInfo = HashMap[String, (Option[String], Int)]();
+    var previousDir = ArrayBuffer[String]();
+    var currentDir = String();
+    input.linesIterator
+        .foreach((line) => {
+            parse(line) match
+                case Some(Kind.Cd(Direction.In(dirName))) => {
+                    previousDir.addOne(currentDir);
+                    currentDir = dirName;
+                }
+                case Some(Kind.Cd(Direction.Out)) => {
+                    currentDir = previousDir.remove(previousDir.length - 1);
+                }
+                case Some(Kind.Ls(Content.File(_, size))) => {
+                    dirInfo.get(currentDir) match {
+                        case Some(prev) =>
+                            dirInfo.update(
+                              currentDir,
+                              (prev._1, prev._2 + size)
+                            )
+                        case None =>
+                            dirInfo.addOne(
+                              currentDir,
+                              (previousDir.lastOption, size)
+                            )
+                    }
+                    previousDir.foreach((parentDir) => {
+                        if (!parentDir.isBlank()) {
+                            dirInfo.get(parentDir) match {
+                                case Some(prev) =>
+                                    dirInfo.update(
+                                      parentDir,
+                                      (prev._1, prev._2 + size)
+                                    )
+                                case None => ()
+                            }
+                        }
+                    })
+                }
+                case _ => {}
+        })
 
-  val result =
-    dirInfo.filter((dir) => dir._2._2 < 100000).map((dir) => dir._2._2).sum
+    val result =
+        dirInfo.filter((dir) => dir._2._2 < 100000).map((dir) => dir._2._2).sum
 
-  println("Day 7 Part 1: " + result);
+    println("Day 7 Part 1: " + result);
 }
 
 def part2(input: String) = {
-  val sum = input.linesIterator
-    .map((line) =>
-      parse(line) match
-        case Some(Kind.Ls(Content.File(_, size))) => Some(size)
-        case _                                    => None
-    )
-    .flatten
-    .sum
+    val sum = input.linesIterator
+        .map((line) =>
+            parse(line) match
+                case Some(Kind.Ls(Content.File(_, size))) => Some(size)
+                case _                                    => None
+        )
+        .flatten
+        .sum
 
-  println("Day 7 Part 2: " + sum);
+    println("Day 7 Part 2: " + sum);
 }
 
 val input = """$ cd /

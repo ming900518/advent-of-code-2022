@@ -3,85 +3,85 @@ package aoc.day5
 import scala.collection.mutable.ArrayBuffer
 
 def part1(input: String, instruction: String) = {
-  val processedInput = parseInput(input);
-  val processedInstruction = parseInstruction(instruction);
-  processedInstruction.foreach((count, from, to) => {
-    val fromStack = processedInput.apply(from - 1);
-    val toStack = processedInput.apply(to - 1);
-    val target = ArrayBuffer[String]();
-    Range(0, count).reverse.map((i) => {
-      target.addOne(fromStack.apply(i));
+    val processedInput = parseInput(input);
+    val processedInstruction = parseInstruction(instruction);
+    processedInstruction.foreach((count, from, to) => {
+        val fromStack = processedInput.apply(from - 1);
+        val toStack = processedInput.apply(to - 1);
+        val target = ArrayBuffer[String]();
+        Range(0, count).reverse.map((i) => {
+            target.addOne(fromStack.apply(i));
+        })
+        toStack.insertAll(0, target);
+        fromStack.remove(0, count);
     })
-    toStack.insertAll(0, target);
-    fromStack.remove(0, count);
-  })
-  print("Day 5 Part 1: ")
-  processedInput.foreach((column) => print(column.head))
-  println()
+    print("Day 5 Part 1: ")
+    processedInput.foreach((column) => print(column.head))
+    println()
 }
 
 def part2(input: String, instruction: String) = {
-  val processedInput = parseInput(input);
-  val processedInstruction = parseInstruction(instruction);
-  processedInstruction.foreach((count, from, to) => {
-    val fromStack = processedInput.apply(from - 1);
-    val toStack = processedInput.apply(to - 1);
-    val target = ArrayBuffer[String]();
-    Range(0, count).map((i) => {
-      target.addOne(fromStack.apply(i));
+    val processedInput = parseInput(input);
+    val processedInstruction = parseInstruction(instruction);
+    processedInstruction.foreach((count, from, to) => {
+        val fromStack = processedInput.apply(from - 1);
+        val toStack = processedInput.apply(to - 1);
+        val target = ArrayBuffer[String]();
+        Range(0, count).map((i) => {
+            target.addOne(fromStack.apply(i));
+        })
+        toStack.insertAll(0, target);
+        fromStack.remove(0, count);
     })
-    toStack.insertAll(0, target);
-    fromStack.remove(0, count);
-  })
-  print("Day 5 Part 2: ")
-  processedInput.foreach((column) => print(column.head))
-  println()
+    print("Day 5 Part 2: ")
+    processedInput.foreach((column) => print(column.head))
+    println()
 }
 
 def parseInput(input: String): List[ArrayBuffer[String]] = {
-  val result = List(
-    ArrayBuffer[String](),
-    ArrayBuffer[String](),
-    ArrayBuffer[String](),
-    ArrayBuffer[String](),
-    ArrayBuffer[String](),
-    ArrayBuffer[String](),
-    ArrayBuffer[String](),
-    ArrayBuffer[String](),
-    ArrayBuffer[String]()
-  );
-  input
-    .split("\n")
-    .dropRight(1)
-    .map((line) => {
-      line
-        .grouped(4)
-        .zip(result)
-        .foreach((value, col) => {
-          val extracted = value.substring(1, 2)
-          if extracted != " " then {
-            col += value.substring(1, 2)
-          }
+    val result = List(
+      ArrayBuffer[String](),
+      ArrayBuffer[String](),
+      ArrayBuffer[String](),
+      ArrayBuffer[String](),
+      ArrayBuffer[String](),
+      ArrayBuffer[String](),
+      ArrayBuffer[String](),
+      ArrayBuffer[String](),
+      ArrayBuffer[String]()
+    );
+    input
+        .split("\n")
+        .dropRight(1)
+        .map((line) => {
+            line
+                .grouped(4)
+                .zip(result)
+                .foreach((value, col) => {
+                    val extracted = value.substring(1, 2)
+                    if extracted != " " then {
+                        col += value.substring(1, 2)
+                    }
+                });
         });
-    });
-  result
+    result
 }
 
 def parseInstruction(instruction: String): List[(Int, Int, Int)] = {
-  instruction
-    .split("\n")
-    .map((line) => {
-      line
-        .split(" ")
-        .map((splited) => splited.toIntOption)
-        .filter((value) => value.isDefined)
-        .grouped(3)
-        .map((value) =>
-          (value.apply(0).get, value.apply(1).get, value.apply(2).get)
-        )
-        .next()
-    })
-    .toList
+    instruction
+        .split("\n")
+        .map((line) => {
+            line
+                .split(" ")
+                .map((splited) => splited.toIntOption)
+                .filter((value) => value.isDefined)
+                .grouped(3)
+                .map((value) =>
+                    (value.apply(0).get, value.apply(1).get, value.apply(2).get)
+                )
+                .next()
+        })
+        .toList
 }
 
 val input = s"""
