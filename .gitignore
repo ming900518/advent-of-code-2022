@@ -117,4 +117,11 @@ hs_err_pid*
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,visualstudiocode,rust,rust-analyzer,scala,sbt,metals
+### zig ###
+# Zig programming language
 
+zig-cache/
+zig-out/
+build/
+build-*/
+docgen_tmp/
