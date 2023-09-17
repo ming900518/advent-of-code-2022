@@ -12,7 +12,7 @@ pub fn part1() {
         .collect::<BinaryHeap<u32>>()
         .pop()
         .unwrap_or_default();
-    println!("{result}")
+    println!("{result}");
 }
 
 pub fn part2() {
@@ -30,7 +30,7 @@ pub fn part2() {
         (0..3)
             .map(|_| result.pop().unwrap_or_default())
             .sum::<u32>()
-    )
+    );
 }
 
 const INPUT: &str = r"5794

@@ -20,17 +20,17 @@ enum Content {
 }
 
 impl Command {
-    fn parse(input: String) -> Option<Command> {
+    fn parse(input: &str) -> Option<Self> {
         let Some((command, content)) = input.split_once('\n') else {
             return None;
         };
 
         match command.trim_end() {
             x if x.contains("cd") => match x.split_once(' ') {
-                Some((_, _arg @ "..")) => Some(Command::Cd(Direction::Out)),
-                Some((_, _arg @ "/")) => Some(Command::Cd(Direction::Root)),
+                Some((_, _arg @ "..")) => Some(Self::Cd(Direction::Out)),
+                Some((_, _arg @ "/")) => Some(Self::Cd(Direction::Root)),
                 Some((_, _arg @ "")) => None,
-                Some((_, arg)) => Some(Command::Cd(Direction::In(arg.to_owned()))),
+                Some((_, arg)) => Some(Self::Cd(Direction::In(arg.to_owned()))),
                 None => None,
             },
             x if x.contains("ls") => {
@@ -48,7 +48,7 @@ impl Command {
                         }
                     })
                     .collect();
-                Some(Command::Ls(contents))
+                Some(Self::Ls(contents))
             }
             _ => None,
         }
@@ -60,18 +60,18 @@ pub fn part1() {
     let mut parent_dirs: Vec<String> = Vec::new();
     let mut current_dir = String::new();
     TEST.split("$ ")
-        .for_each(|splited| match Command::parse(splited.to_owned()) {
+        .for_each(|splited| match Command::parse(splited) {
             Some(Command::Cd(Direction::In(dir_name))) => {
                 parent_dirs.push(current_dir.clone());
                 current_dir = dir_name;
                 table.insert(format!("{}/{current_dir}", parent_dirs.join("/")), 0);
             }
             Some(Command::Cd(Direction::Out)) => {
-                current_dir = parent_dirs.pop().unwrap_or_else(|| "".to_owned());
+                current_dir = parent_dirs.pop().unwrap_or_default();
             }
             Some(Command::Cd(Direction::Root)) => {
                 parent_dirs = Vec::new();
-                current_dir = "".to_owned();
+                current_dir = String::default();
             }
             Some(Command::Ls(content_list)) => {
                 content_list.iter().for_each(|content| match content {
@@ -80,13 +80,13 @@ pub fn part1() {
                         let mut loop_dir = String::from("/");
                         let mut all_dir = parent_dirs.clone();
                         all_dir.push(current_dir.clone());
-                        all_dir.iter().for_each(|dir| {
+                        for dir in &all_dir {
                             println!("{loop_dir}");
                             loop_dir.push_str(dir);
                             table
                                 .entry(loop_dir.clone())
                                 .and_modify(|prev_size| *prev_size += size);
-                        })
+                        }
                     }
                 });
             }
@@ -98,10 +98,10 @@ pub fn part1() {
         "{}",
         table
             .iter()
-            .filter(|(_, &value)| value < 100000)
+            .filter(|(_, &value)| value < 100_000)
             .map(|(_, value)| value)
             .sum::<u32>()
-    )
+    );
 }
 
 const TEST: &str = r"$ cd /
@@ -1236,8 +1236,3 @@ $ cd ..
 $ cd svgbqd
 $ ls
 69927 bjc.vdh";
-
-enum Janitor {
-    Contractor,
-    Partner(String),
-}
